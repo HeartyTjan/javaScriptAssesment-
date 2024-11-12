@@ -1,6 +1,8 @@
-const {getScoresAboveSeventy,addFiveToStudentScores,getSquareOfEach} = require("./studentScores"); 
+const {getLetterGrades,getTotal,getAfternoonClasses,getScoresAboveSeventy,
+       addFiveToStudentScores,getSquareOfEach,distributeBooksToMembers,getHealtyItem,
+       extractOrder} = require("../sourcesFiles/studentScores"); 
 
-test("Extra Scores greater or equal to 70", ()=>{
+test("Extract Scores greater or equal to 70", ()=>{
     const studentScores = [24,67,79,70,54,80,97];
     let result = getScoresAboveSeventy(studentScores);
     let expected = [79,70,80,97];
@@ -20,4 +22,75 @@ test("square each number in a list", ()=>{
     let expected = [4,16,36,64,100];
     expect(expected).toEqual(result);
 })
+
+test("distribute to each member",()=> {
+    const members = ["Emily","Jack","Sophia","Daniel"];
+    const books = ["Art of Living","Art of Money","Art of Not giving a Fuck","Art of Love"];
+    let result = distributeBooksToMembers(members,books);
+
+    let expected = {Emily : "Art of Living",
+                  Jack : "Art of Money",
+                  Sophia: "Art of Not giving a Fuck",
+                  Daniel: "Art of Love",}
+
+    expect(expected).toEqual(result);
+})
+
+test("Extract classes offered in afternoon", ()=>{
+    const classTimming = ["9:00 AM","11:00 AM", "1:00 PM", "3:00 PM", "5:00 PM"];
+    let result = getAfternoonClasses(classTimming);
+    let expected = ["1:00 PM", "3:00 PM", "5:00 PM"];
+    expect(expected).toEqual(result);
+})
+
+test("get total amount spent",()=>{
+    const expenses = {
+        "groceries": 150, 
+        "dining out": 100, 
+        "transportation": 50, 
+        "entertainment": 80 
+    }
+    let result = getTotal(expenses);
+    let expected = 380;
+    expect(expected).toBe(result);
+})
+
+test("get letter grades for list of scores",()=>{
+    const studentScores = [95, 78, 85, 60, 45, 92];
+    let result = getLetterGrades(studentScores);
+    let expected = ["A","C","B","D","F","A"];
+    expect(expected).toEqual(result);
+})
+
+test("extract healty items from list",()=> {
+    const shoppingList = [
+        { name: 'Apples', category: 'Fruits', isHealthy: true },
+        { name: 'Potato Chips', category: 'Snacks', isHealthy: false },
+        { name: 'Carrots', category: 'Vegetables', isHealthy: true },
+        { name: 'Chocolate Bars', category: 'Sweets', isHealthy: false },
+        { name: 'Greek Yogurt', category: 'Dairy', isHealthy: true },
+        { name: 'Soda', category: 'Beverages', isHealthy: false }];
+
+    let result =  getHealtyItem(shoppingList);
+    let expected = [
+        { name: 'Apples', category: 'Fruits', isHealthy: true },
+        { name: 'Carrots', category: 'Vegetables', isHealthy: true },
+        { name: 'Greek Yogurt', category: 'Dairy', isHealthy: true },
+         ];
+
+    expect(expected).toEqual(result); 
+})
+
+test("extract orders with cost above $100",()=>{
+    const orders = [
+        { id: 1, items: [{ price: 25, quantity: 2 }, { price: 15, quantity: 3 }] },
+        { id: 2, items: [{ price: 100, quantity: 1 }, { price: 25, quantity: 2 }] },
+        { id: 3, items: [{ price: 30, quantity: 1 }] },
+       ]
+    let result = extractOrder(orders);
+    //let expected = [  { id: 2, items: [{ price: 100, quantity: 1 }, { price: 25, quantity: 2 }] }]
+    let expectedSummary = {id:2, total :150};
+    expect(expectedSummary).toEqual(result);
+})
+
 
