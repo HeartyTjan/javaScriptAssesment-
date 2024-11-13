@@ -89,7 +89,6 @@ function extractOrder(array){
 
 const extractItemsAndgetPercentage = (array)=>{
     let result = [];
-    // [{ name: "Laptop", price: 1200, discountedprice : 120}, 
     for(let key of array){
             if (key.price > 50){
                 result.push({name : key.name, price: key.price, discountedPrice: key.price - (key.price* 0.1)})

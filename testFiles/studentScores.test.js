@@ -89,7 +89,6 @@ test("extract orders with cost above $100",()=>{
         {id:  4, items: [{ price: 100, quantity: 3}]},
        ]
     let result = extractOrder(orders);
-    //let expected = [  { id: 2, items: [{ price: 100, quantity: 1 }, { price: 25, quantity: 2 }] }]
     let expectedSummary = [{id: 2, total :150},
                             {id: 4, total : 300 },];
 
