@@ -67,35 +67,39 @@ const getHealtyItem = (array)=>{
     return result;
 }
 
-function extractOrder(array){
+function extractOrder(array){   
   
-    let result =[];
-    let total = 0;
+    let result = [];
+    let totalCost = 0;
     let summary ={};
    for(let key of array){
         key.items.forEach((element)=> {
-            if(element.price >= 100) {
-                result.push(key)
-                summary.id = key.id
-            }
+            totalCost += element.price * element.quantity;
+            });
             
-        })
-   }
-    // { id: 2, items: [{ price: 100, quantity: 1 }, { price: 25, quantity: 2 }] },
-   for(let key of result){
-        key.items.forEach((element)=> {
-            if(element.price >= 100){
-                 total += element.price * element.quantity;
-                 summary.totalCost  = total
+            if(totalCost > 100) {
+                result.push({id : key.id , total: totalCost});
+               
             }
-           
-        })
+            totalCost = 0;        
    }
-  
-   return summary;
+   return result;
 
+}
+
+const extractItemsAndgetPercentage = (array)=>{
+    let result = [];
+    // [{ name: "Laptop", price: 1200, discountedprice : 120}, 
+    for(let key of array){
+            if (key.price > 50){
+                result.push({name : key.name, price: key.price, discountedPrice: key.price - (key.price* 0.1)})
+            }
+    }
+    return result;                   
 }
 
 module.exports = {getLetterGrades,getTotal,getAfternoonClasses,getScoresAboveSeventy,
                   addFiveToStudentScores,getSquareOfEach,distributeBooksToMembers,getHealtyItem,
-                  extractOrder};
+                  extractOrder,extractItemsAndgetPercentage};
+
+ 

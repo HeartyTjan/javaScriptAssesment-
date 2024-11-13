@@ -1,6 +1,6 @@
 const {getLetterGrades,getTotal,getAfternoonClasses,getScoresAboveSeventy,
        addFiveToStudentScores,getSquareOfEach,distributeBooksToMembers,getHealtyItem,
-       extractOrder} = require("../sourcesFiles/studentScores"); 
+       extractOrder,extractItemsAndgetPercentage} = require("../sourcesFiles/studentScores"); 
 
 test("Extract Scores greater or equal to 70", ()=>{
     const studentScores = [24,67,79,70,54,80,97];
@@ -86,11 +86,27 @@ test("extract orders with cost above $100",()=>{
         { id: 1, items: [{ price: 25, quantity: 2 }, { price: 15, quantity: 3 }] },
         { id: 2, items: [{ price: 100, quantity: 1 }, { price: 25, quantity: 2 }] },
         { id: 3, items: [{ price: 30, quantity: 1 }] },
+        {id:  4, items: [{ price: 100, quantity: 3}]},
        ]
     let result = extractOrder(orders);
     //let expected = [  { id: 2, items: [{ price: 100, quantity: 1 }, { price: 25, quantity: 2 }] }]
-    let expectedSummary = {id:2, total :150};
+    let expectedSummary = [{id: 2, total :150},
+                            {id: 4, total : 300 },];
+
     expect(expectedSummary).toEqual(result);
 })
+test("extract items above $50 and offer 10% discount",()=>{
+    const products = [ 
+        { name: "Laptop", price: 1200 }, 
+        { name: "Phone", price: 600 },
+        { name: "Mouse", price: 25 }, 
+        { name: "Monitor", price: 200 }];
 
+    let result = extractItemsAndgetPercentage(products);
+    let expected = [{ name: "Laptop", price: 1200, discountedPrice : 1080}, 
+                    { name: "Phone", price: 600 , discountedPrice : 540},
+                    { name: "Monitor", price: 200, discountedPrice : 180}]
+
+    expect(expected).toEqual(result);
+})
 
